@@ -30,6 +30,10 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 		client.inMemory()
 			.withClient("SampleClientId").secret(passwordEncoder.encode("secret"))
 			.authorizedGrantTypes("client_credentials").authorities("ROLE_CLIENT")
+			.scopes("read").autoApprove(true)
+			.and()
+			.withClient("ResourceSecurityUtilities").secret(passwordEncoder.encode("secret"))
+			.authorizedGrantTypes("client_credentials").authorities("ROLE_CLIENT")
 			.scopes("read").autoApprove(true);
 	}
 	
