@@ -17,5 +17,12 @@ logging:
       springframework:
         web: debug
     
+security:
+  oauth2:
+    resource:
+      clientId: ResourceSecurityUtilities
+      clientSecret: secret
+      checkTokenEndpointUrl: http://localhost:6010/oauth2-authorization/oauth/check_token
+
 app-config:
   shaAlgo: SHA-1

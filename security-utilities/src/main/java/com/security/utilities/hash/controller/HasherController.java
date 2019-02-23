@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.security.utilities.hash.AppConfig;
+import com.security.utilities.AppConfig;
 import com.security.utilities.hash.model.HashRequest;
 import com.security.utilities.hash.model.HashResponse;
 import com.security.utilities.hash.service.HashService;

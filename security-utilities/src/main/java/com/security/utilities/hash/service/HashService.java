@@ -8,7 +8,7 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.security.utilities.hash.AppConfig;
+import com.security.utilities.AppConfig;
 
 @Service
 public class HashService {
