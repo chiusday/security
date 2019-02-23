@@ -1,4 +1,4 @@
-Spring OAuth2 Authorization Server:
+### Spring OAuth2 Authorization Server:
 1. Add spring-security-oauth2 in the pom
 2. Annotate with @EnableAuthorizationServer
 3. Create a WebSecurity Configuration that extends WebSecurityConfigurerAdapter with the following:

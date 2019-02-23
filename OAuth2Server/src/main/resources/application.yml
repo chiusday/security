@@ -8,7 +8,7 @@ server:
     context-path: /oauth2-authorization
     
 logging:
-  file: /logs/oauth2-authorization
+  file: /logs/oauth2-authorization.log
   level:
     org:
       springframework:

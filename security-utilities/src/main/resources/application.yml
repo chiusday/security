@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: security-utilities
+
+  profiles:
+    active: dev
+
+server:
+  port: 6011
+  servlet:
+    context-path: /sec-utils
+    
+logging:
+  file: /logs/security-utilities.log
+  level:
+    org:
+      springframework:
+        web: debug
+    
+app-config:
+  shaAlgo: SHA-1
