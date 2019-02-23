@@ -1,6 +1,6 @@
-package com.security.crypto.hash.model;
+package com.security.utilities.hash.model;
 
-import com.security.crypto.hash.model.HashBase;
+import com.security.utilities.hash.model.HashBase;
 
 public class HashRequest extends HashBase {
 	public String originalText;

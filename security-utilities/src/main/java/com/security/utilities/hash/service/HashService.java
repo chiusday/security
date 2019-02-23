@@ -1,4 +1,4 @@
-package com.security.crypto.hash.service;
+package com.security.utilities.hash.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -8,7 +8,7 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.security.crypto.hash.AppConfig;
+import com.security.utilities.hash.AppConfig;
 
 @Service
 public class HashService {

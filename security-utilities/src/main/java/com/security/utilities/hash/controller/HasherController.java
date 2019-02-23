@@ -1,4 +1,4 @@
-package com.security.crypto.hash.controller;
+package com.security.utilities.hash.controller;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.security.crypto.hash.model.HashRequest;
-import com.security.crypto.hash.model.HashResponse;
-import com.security.crypto.hash.service.HashService;
-import com.security.crypto.hash.AppConfig;
+import com.security.utilities.hash.AppConfig;
+import com.security.utilities.hash.model.HashRequest;
+import com.security.utilities.hash.model.HashResponse;
+import com.security.utilities.hash.service.HashService;
 
 @RestController
 public class HasherController {
@@ -29,7 +29,7 @@ public class HasherController {
 		HashResponse response = new HashResponse();
 		try {
 			String hashed = hashService.hash(request.getOriginalText());
-			response.setEncryptedText(hashed);
+			response.setHashedValue(hashed);
 			LOG.info("returning: {}", hashed);
 			return response;
 		} catch (NoSuchAlgorithmException noSuchAlgo){

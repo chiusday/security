@@ -1,4 +1,4 @@
-package com.security.crypto.hash;
+package com.security.utilities.hash;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

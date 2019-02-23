@@ -1,4 +1,4 @@
-package com.security.crypto.hash;
+package com.security.utilities.hash;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
