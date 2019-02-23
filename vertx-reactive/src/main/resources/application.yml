@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: vertx-multiple-tables
+  h2:
+    console.enabled: true
+
+server:
+  port: 31011
+  servlet:
+    context-path: /vertxrx
+  
+logging:
+  level:
+    com.samples.vertx: debug
+
+app-config :
+  addressUser: samples.dataAccess.user
+  addressMarketInfo: samples.dataAccess.marketInfo
+  hasherUrl: http://localhost:6011/sec-utils/hash
+  
+db-config:
+  url: jdbc:h2:mem:sample
+  driver_class: org.h2.Driver
+  
+message:
+  failed:
+    internal-error: Operation failed due to internal error.
+    internal-error.ins: Creation failed due to internal error.
+    internal-error.get: Get failed due to internal error.
+    internal-error.upd: Update failed due to internal error.    
+    internal-error.del: Delete failed due to internal error.    
+  success: Operation successful!
+  success.ins: Insert successful!
+  success.get: Get successful!
+  success.upd: Update successful!
+  success.del: Delete successful!
+      

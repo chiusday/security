@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.samples.vertx.reactive</groupId>
+  <artifactId>vertx-reactive</artifactId>
+  <version>0.0.1</version>
+
+  	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  		<java.version>1.8</java.version>
+  		<vertx.version>3.6.2</vertx.version>
+  		<samples-common.version>0.0.1</samples-common.version>
+  	</properties>
+  	
+  	<parent>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-parent</artifactId>
+  		<version>2.0.6.RELEASE</version>
+  	</parent>
+  	
+  	<dependencies>
+  		<dependency>
+			<groupId>com.security.utilities</groupId>
+			<artifactId>security-common-utilities</artifactId>
+			<version>0.0.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>com.samples.common</groupId>
+  			<artifactId>samples-common-market</artifactId>
+  			<version>${samples-common.version}</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>com.samples.common</groupId>
+  			<artifactId>samples-common-vertx</artifactId>
+  			<version>${samples-common.version}</version>
+  		</dependency>
+  		<dependency>
+			<groupId>com.jon</groupId>
+			<artifactId>jon-utilities</artifactId>
+			<version>1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.springframework.boot</groupId>
+  			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- 
+  			<exclusions>
+  				<exclusion>
+  					<groupId>org.springframework.boot</groupId>
+  					<artifactId>spring-boot-starter-tomcat</artifactId>
+  				</exclusion>
+  			</exclusions>
+  			 -->
+  		</dependency>
+
+  		<dependency>
+  			<groupId>org.springframework.boot</groupId>
+  			<artifactId>
+  				spring-boot-configuration-processor
+  			</artifactId>
+  			<optional>true</optional>
+  		</dependency>
+
+  		<dependency>
+  			<groupId>io.vertx</groupId>
+  			<artifactId>vertx-rx-java2</artifactId>
+  			<version>${vertx.version}</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>io.vertx</groupId>
+  			<artifactId>vertx-core</artifactId>
+  			<version>${vertx.version}</version>
+  		</dependency>
+  		
+  		<dependency>
+  			<groupId>io.vertx</groupId>
+  			<artifactId>vertx-jdbc-client</artifactId>
+  			<version>${vertx.version}</version>
+  		</dependency>
+<!--   		
+  		<dependency>
+  			<groupId>com.microsoft.sqlserver</groupId>
+  			<artifactId>mssql-jdbc</artifactId>
+  			<version>6.1.0.jre8</version>
+  		</dependency>
+ -->
+ 		<dependency>
+ 			<groupId>com.h2database</groupId>
+ 			<artifactId>h2</artifactId>
+ 			<scope>runtime</scope>
+ 		</dependency>
+ 		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+  		
+  		<dependency>
+  			<groupId>io.vertx</groupId>
+  			<artifactId>vertx-unit</artifactId>
+  			<version>${vertx.version}</version>
+  			<scope>test</scope>
+  		</dependency>
+  		
+  		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  			<scope>test</scope>
+  		</dependency>
+  	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
