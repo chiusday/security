@@ -16,6 +16,7 @@ logging:
     org:
       springframework:
         web: debug
+        security: debug
     
 security:
   oauth2:

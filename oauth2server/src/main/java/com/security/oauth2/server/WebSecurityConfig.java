@@ -1,6 +1,5 @@
 package com.security.oauth2.server;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,9 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -28,7 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder authentication) throws Exception {
 		authentication.inMemoryAuthentication()
-			.withUser("Jon").password(passwordEncoder.encode("password")).roles("USER");
+			.withUser("Jon").password(passwordEncoder().encode("password"))
+			.roles("USER");
 	}
 	
 	@Override

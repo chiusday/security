@@ -5,8 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import com.samples.vertx.model.DataAccessMessage;
 import com.samples.vertx.reactive.AppConfig;
@@ -28,6 +28,9 @@ public class UserDataAccess extends VertxSQLDataAccess<User> {
 	
 	@Autowired
 	private AppConfig appConfig;
+	
+	@Autowired
+	private OAuth2RestOperations restTemplate;
 
 	public UserDataAccess(DBConfig config) {
 		super(User.class, config);
@@ -62,8 +65,8 @@ public class UserDataAccess extends VertxSQLDataAccess<User> {
 	@Override
 	public void executeCreate() {
 		String s = "CREATE TABLE IF NOT EXISTS "+ getTableName() 
-		+" (id BIGINT IDENTITY, name VARCHAR(100), " 
-		+ "groupId INTEGER, password VARCHAR(32))";
+		+" (id BIGINT IDENTITY, name VARCHAR(128), " 
+		+ "groupId INTEGER, password VARCHAR(128))";
 		
 		this.jdbc.rxGetConnection()
 			.flatMap(conn -> {
@@ -147,7 +150,7 @@ public class UserDataAccess extends VertxSQLDataAccess<User> {
 	}
 
 	private String hashThis(String text) {
-		RestTemplate restTemplate = new RestTemplate();
+//		RestTemplate restTemplate = new RestTemplate();
 		HashRequest request = new HashRequest();
 		request.setOriginalText(text);
 		log.info("Calling hasher...");
