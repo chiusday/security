@@ -14,9 +14,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.Assert;
 
 import com.samples.market.model.HistoricalTicker;
+import com.samples.vertx.enums.DBOperations;
 import com.samples.vertx.model.DataAccessMessage;
 import com.samples.vertx.reactive.dao.HistoricalTickerDAO;
-import com.samples.vertx.enums.DBOperations;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

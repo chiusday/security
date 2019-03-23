@@ -7,12 +7,19 @@ server:
   servlet:
     context-path: /stocker
 
+logging:
+  level:
+    org:
+      springframework:
+        web: debug
+        security: debug
+        
 security:
   oauth2:
     resource:
       clientId: stockerClientId
       clientSecret: secret
-      checkTokenEndPointUri: http://localhost:6010/oauth2-authorization/oauth/check_token      
+      checkTokenEndPointUrl: http://localhost:6010/oauth2-authorization/oauth/check_token
 
 app-config:
   sourceUrl: https://www.alphavantage.co/query

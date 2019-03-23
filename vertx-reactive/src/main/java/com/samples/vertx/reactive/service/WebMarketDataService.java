@@ -40,8 +40,8 @@ public class WebMarketDataService<T extends Ticker> {
 	 */
 	public List<T> getWebMarketDataThenAdd(String symbol, 
 			MarketdataAPIConsumer<T> webConsumer) {
-		
-		List<T> tickers = webConsumer.getTickerList(symbol);
+
+		List<T> tickers = webConsumer.postForTickerList(symbol);
 		//batch add the list to DB Asynchronously
 		asyncBatchAddMarketData(tickers);
 		//return the market data that corresponds to 'symbol' while a number of data are
