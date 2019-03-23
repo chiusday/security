@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: stocker
+    
+server:
+  port: 40401
+  servlet:
+    context-path: /stocker
+
+app-config:
+  sourceUrl: https://www.alphavantage.co/query
+  function: function=TIME_SERIES_DAILY_ADJUSTED
+  symbol: symbol=
+  apiKey: apikey=demo
+  
+returned-data:
+  timeSeries:
+    daily: Time Series (Daily)
+    weekly: Weekly Time Series
+    monthly: Monthly Time Series
+    
+  
