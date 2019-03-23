@@ -34,6 +34,10 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 			.and()
 			.withClient("ResourceSecurityUtilities").secret(passwordEncoder.encode("secret"))
 			.authorizedGrantTypes("client_credentials").authorities("ROLE_CLIENT")
+			.scopes("read").autoApprove(true)
+			.and()
+			.withClient("stockerClientId").secret(passwordEncoder.encode("secret"))
+			.authorizedGrantTypes("client_credentials").authorities("ROLE_CLIENT")
 			.scopes("read").autoApprove(true);
 	}
 	

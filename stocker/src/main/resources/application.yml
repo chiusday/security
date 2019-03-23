@@ -7,6 +7,13 @@ server:
   servlet:
     context-path: /stocker
 
+security:
+  oauth2:
+    resource:
+      clientId: stockerClientId
+      clientSecret: secret
+      checkTokenEndPointUri: http://localhost:6010/oauth2-authorization/oauth/check_token      
+
 app-config:
   sourceUrl: https://www.alphavantage.co/query
   function: function=TIME_SERIES_DAILY_ADJUSTED
