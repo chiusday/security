@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.samples.market.model.HistoricalTicker;
+import com.samples.vertx.enums.DBOperations;
 import com.samples.vertx.model.DataAccessMessage;
 import com.samples.vertx.reactive.interfaces.IVertxSQLDataAccess;
 import com.samples.vertx.reactive.model.User;
-import com.samples.vertx.enums.DBOperations;
 
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.core.eventbus.Message;

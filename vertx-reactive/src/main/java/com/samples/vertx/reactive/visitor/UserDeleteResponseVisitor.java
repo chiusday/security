@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 
 import com.samples.vertx.model.DataAccessMessage;
 import com.samples.vertx.reactive.model.User;
-import com.samples.vertx.reactive.visitor.interfaces.IRxResponseVisitor;
+import com.samples.vertx.reactive.visitor.interfaces.RxResponseVisitor;
 
 @Component
-public class UserDeleteResponseVisitor implements IRxResponseVisitor<User> {
+public class UserDeleteResponseVisitor extends RxResponseVisitor<User> {
 
 	@Value("${message.failed.internal-error.del}")
 	private String errorMessage;

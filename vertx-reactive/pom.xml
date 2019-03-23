@@ -20,6 +20,11 @@
   	
   	<dependencies>
   		<dependency>
+  			<groupId>com.samples.common</groupId>
+  			<artifactId>samples-common</artifactId>
+  			<version>${samples-common.version}</version>
+  		</dependency>
+  		<dependency>
 			<groupId>com.security.utilities</groupId>
 			<artifactId>security-common-utilities</artifactId>
 			<version>0.0.1</version>

@@ -7,24 +7,36 @@ import org.springframework.stereotype.Component;
 
 import com.samples.market.model.Ticker;
 import com.samples.vertx.model.DataAccessMessage;
-import com.samples.vertx.reactive.visitor.interfaces.IRxResponseVisitor;
+import com.samples.vertx.reactive.visitor.interfaces.RxResponseVisitor;
 
+/***
+ * Base class for market data add reactive response visitor. This can used with
+ * it's default implementations or be extended for customized/specific features.
+ * @author chiusday
+ *
+ * @param <T> Ticker or any of it's subclasses
+ */
 @Component
-public class MarketDataAddResponseVisitor<T extends Ticker> implements IRxResponseVisitor<T> {
+public class MarketDataAddResponseVisitor<T extends Ticker> 
+		extends RxResponseVisitor<T> {
+
 	@Value("${message.failed.internal-error.ins}")
-	private String errorMessage;
+	protected String errorMessage;
 	
 	@Value("${message.success.ins}")
-	private String successMessage;
+	protected String successMessage;
+	
+	protected HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+	protected String currentMessage = successMessage;
 	
 	@Override
 	public String getErrorText() {
 		return this.errorMessage;
 	}
-
+	
 	@Override
 	public String getResultText() {
-		return this.successMessage;
+		return this.currentMessage;
 	}
 
 	@Override

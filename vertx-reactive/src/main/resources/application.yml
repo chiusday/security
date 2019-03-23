@@ -37,6 +37,9 @@ db-config:
   url: jdbc:h2:mem:sample
   driver_class: org.h2.Driver
   
+stocker:
+  url: http://localhost:40401/stocker/stock/list/
+  
 message:
   failed:
     internal-error: Operation failed due to internal error.

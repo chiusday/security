@@ -4,17 +4,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.stereotype.Component;
 
 import com.samples.vertx.model.DataAccessMessage;
-import com.samples.vertx.reactive.AppConfig;
 import com.samples.vertx.reactive.DBConfig;
 import com.samples.vertx.reactive.interfaces.VertxSQLDataAccess;
 import com.samples.vertx.reactive.model.User;
-import com.security.utilities.hash.model.HashRequest;
-import com.security.utilities.hash.model.HashResponse;
 
 import io.reactivex.Single;
 import io.vertx.core.json.JsonArray;
@@ -25,12 +20,6 @@ import io.vertx.reactivex.core.eventbus.Message;
 @Component
 public class UserDataAccess extends VertxSQLDataAccess<User> {
 	private Logger log = LoggerFactory.getLogger(UserDataAccess.class);
-	
-	@Autowired
-	private AppConfig appConfig;
-	
-	@Autowired
-	private OAuth2RestOperations restTemplate;
 
 	public UserDataAccess(DBConfig config) {
 		super(User.class, config);
@@ -65,8 +54,8 @@ public class UserDataAccess extends VertxSQLDataAccess<User> {
 	@Override
 	public void executeCreate() {
 		String s = "CREATE TABLE IF NOT EXISTS "+ getTableName() 
-		+" (id BIGINT IDENTITY, name VARCHAR(128), " 
-		+ "groupId INTEGER, password VARCHAR(128))";
+		+" (id BIGINT IDENTITY, name VARCHAR(100), " 
+		+ "groupId INTEGER, password VARCHAR(32))";
 		
 		this.jdbc.rxGetConnection()
 			.flatMap(conn -> {
@@ -85,7 +74,6 @@ public class UserDataAccess extends VertxSQLDataAccess<User> {
 	public void insert(Message<JsonObject> message) {
 		DataAccessMessage<User> userMessage = new DataAccessMessage<>(message.body());
 		User user = userMessage.getModel();
-		user.setPassword(hashThis(user.getPassword()));
 		insert(user, next -> {
 			if (isTransactionFailed(next, userMessage) == false){
 				userMessage.setModel(next.result());
@@ -149,15 +137,4 @@ public class UserDataAccess extends VertxSQLDataAccess<User> {
 			});
 	}
 
-	private String hashThis(String text) {
-//		RestTemplate restTemplate = new RestTemplate();
-		HashRequest request = new HashRequest();
-		request.setOriginalText(text);
-		log.info("Calling hasher...");
-		HashResponse response = restTemplate.postForObject
-				(appConfig.getHasherUrl(), request, HashResponse.class);
-		log.info("Hasher returned with: {}", response.getHashedValue());
-		
-		return response.getHashedValue();
-	}
 }

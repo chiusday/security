@@ -3,23 +3,21 @@ package com.samples.vertx.reactive.visitor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import com.samples.common.exception.model.dto.DataNotFoundException;
 import com.samples.market.model.Ticker;
 import com.samples.vertx.model.DataAccessMessage;
-import com.samples.vertx.reactive.visitor.interfaces.IRxResponseVisitor;
+import com.samples.vertx.reactive.visitor.interfaces.RxResponseVisitor;
 
-@Component
-public class MarketDataGetResponseVisitor<T extends Ticker> implements IRxResponseVisitor<T> {
+@Service
+public class MarketDataGetResponseVisitor<T extends Ticker> extends RxResponseVisitor<T> {
 
 	@Value("${message.failed.internal-error.get}")
 	private String errorText;
 	
 	@Value("${message.success.get}")
 	private String successText;
-	
-	private HttpStatus httpStatus = HttpStatus.OK;
-	private String currentMessage;
 	
 	@Override
 	public String getErrorText() {
@@ -28,26 +26,14 @@ public class MarketDataGetResponseVisitor<T extends Ticker> implements IRxRespon
 
 	@Override
 	public String getResultText() {
-		return this.currentMessage;
+		return this.successText;
 	}
 
 	@Override
 	public ResponseEntity<Object> getResponseEntity(DataAccessMessage<T> message) {
-		return new ResponseEntity<>
-			(getModel(message)==null ? getResultText() : message.getModel(), 
-				this.httpStatus);
-	}
-
-	@Override
-	public T getModel(DataAccessMessage<T> messageTicker) {
-		if (messageTicker.getRecords().isEmpty()) {
-			this.currentMessage = "Record not found.";
-			httpStatus = HttpStatus.NOT_FOUND;
-		} else {
-			this.currentMessage = this.successText;
-			httpStatus = HttpStatus.OK;
-		}
+		if (message.getModel()==null)
+			throw new DataNotFoundException("Ticker get", "Ticker not found");
 		
-		return messageTicker.getModel();		
+		return new ResponseEntity<>(message.getModel(), HttpStatus.OK);
 	}
 }

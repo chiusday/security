@@ -1,11 +1,9 @@
 package com.samples.vertx.reactive.visitor.model;
 
-import java.lang.reflect.Type;
-
 import com.samples.vertx.reactive.visitor.interfaces.IVisitorModel;
 
 public abstract class BaseVisitorModel<T> implements IVisitorModel<T> {
-	protected Type type;
+//	protected Type type;
 	protected T model;
 	protected boolean hasError;
 	protected String message;

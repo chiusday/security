@@ -18,10 +18,10 @@ import io.vertx.ext.sql.UpdateResult;
 import io.vertx.reactivex.core.eventbus.Message;
 
 @Component
-public class MarketDataDAO extends VertxSQLDataAccess<HistoricalTicker> {
-	private Logger log = LoggerFactory.getLogger(MarketDataDAO.class);
+public class HistoricalTickerDAO extends VertxSQLDataAccess<HistoricalTicker> {
+	private Logger log = LoggerFactory.getLogger(HistoricalTickerDAO.class);
 
-	public MarketDataDAO(DBConfig config) {
+	public HistoricalTickerDAO(DBConfig config) {
 		super(HistoricalTicker.class, config);
 	}
 
