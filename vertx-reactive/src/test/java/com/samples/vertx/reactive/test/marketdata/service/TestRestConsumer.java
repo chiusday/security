@@ -11,18 +11,29 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.samples.market.model.HistoricalTicker;
-import com.samples.vertx.reactive.service.RestHistoricalTickerConsumer;
+import com.samples.market.model.IntradayTicker;
+import com.samples.vertx.reactive.service.HistoricalRestConsumer;
+import com.samples.vertx.reactive.service.IntradayRestConsumer;
 
 @SpringBootTest
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
-public class TestRestHistoricalTickerConsumer {
+public class TestRestConsumer {
 	@Autowired
-	private RestHistoricalTickerConsumer webConsumer;
+	private HistoricalRestConsumer historicalRestConsumer;
+	
+	@Autowired
+	private IntradayRestConsumer IntradayRestConsumer;
 	
 	@Test
-	public void TestPostForTickerList() {
-		List<HistoricalTicker> tickers = webConsumer.postForTickerList("MSFT");
+	public void TestPostForHistoricalTickerList() {
+		List<HistoricalTicker> tickers = historicalRestConsumer.postForTickerList("MSFT");
+		Assert.assertFalse(tickers.isEmpty());
+	}
+
+	@Test
+	public void TestPostForIntradayTickerList() {
+		List<IntradayTicker> tickers = IntradayRestConsumer.postForTickerList("MSFT");
 		Assert.assertFalse(tickers.isEmpty());
 	}
 }

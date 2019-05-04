@@ -2,6 +2,7 @@ package com.samples.vertx.reactive.interfaces;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import com.samples.vertx.model.DataAccessMessage;
 import com.samples.vertx.reactive.DBConfig;
 
 import io.vertx.reactivex.core.Vertx;
+import io.vertx.reactivex.core.eventbus.Message;
 import io.vertx.reactivex.ext.jdbc.JDBCClient;
 import io.vertx.reactivex.ext.sql.SQLConnection;
 import io.vertx.reactivex.ext.sql.SQLRowStream;
@@ -39,13 +41,9 @@ public abstract class VertxSQLDataAccess<T> implements IVertxSQLDataAccess<T> {
 		this.DELETE_PREFIX = "DELETE from " + getTableName() + " WHERE ";
 	}
 	
-	public Class<T> getType(){
-		return this.type;
-	}
-	
 	protected abstract String getTableName();
-	
 	protected abstract String getInsertSql();
+	protected abstract String getCreateSql();
 
 	/**
 	 *  
@@ -56,6 +54,38 @@ public abstract class VertxSQLDataAccess<T> implements IVertxSQLDataAccess<T> {
 	public abstract JsonArray toJsonArray(T model);
 	
 	public abstract  JsonArray noKeyJsonArray(T model); 
+
+	public Class<T> getType(){
+		return this.type;
+	}
+	
+	@Override
+	public void executeCreate() {
+		this.jdbc.rxGetConnection()
+			.flatMap(conn -> {
+				Single<UpdateResult> result = conn.rxUpdate(getCreateSql());
+				return result.doAfterTerminate(conn::close);
+			})
+			.subscribe(result -> {
+				log.info("Create table "+getTableName()+ "\nResult >> " 
+						+ JsonObject.mapFrom(result).encode());
+			}, error -> {
+				log.error("Error creating table "+getTableName()+"!\n"
+						+error.getMessage());
+			});
+	}
+	
+	@Override
+	public void insert(Message<JsonObject> message) {
+		DataAccessMessage<T> tickerMessage = new DataAccessMessage<>(message.body());
+		T ticker = tickerMessage.getModel();
+		insert(ticker, next -> {
+			if (isTransactionFailed(next, tickerMessage) == false){
+				tickerMessage.setModel(next.result());
+			}
+			message.reply(JsonObject.mapFrom(tickerMessage));
+		});
+	}
 
 	public void insert(T model,  Handler<AsyncResult<T>> next) {
 		this.jdbc.getConnection(asyncConn -> {
@@ -71,6 +101,18 @@ public abstract class VertxSQLDataAccess<T> implements IVertxSQLDataAccess<T> {
 		});
 	}
 	
+	@Override
+	public void batchInsert(Message<JsonObject> message) {
+		DataAccessMessage<T> tickerMessage = new DataAccessMessage<>(message.body());
+		List<JsonArray> batchParams = tickerMessage.getListJsonArray();
+		batchInsert(batchParams, next -> {
+			if (isTransactionFailed(next, tickerMessage) == false) {
+				tickerMessage.setBatchResult(next.result());
+			}
+			message.reply(JsonObject.mapFrom(tickerMessage));			
+		});
+	}
+
 	public void batchInsert(List<JsonArray> batchParams, Handler<AsyncResult<List<Integer>>> next) {
 		this.jdbc.getConnection(asyncConn -> {
 			SQLConnection connection = asyncConn.result();
@@ -122,14 +164,30 @@ public abstract class VertxSQLDataAccess<T> implements IVertxSQLDataAccess<T> {
 		connection.close();
 	}
 
-	public void select(String criteria, JsonArray parameters, Handler<AsyncResult<List<JsonObject>>> next) {
+	@Override
+	public void select(Message<JsonObject> message) {
+		DataAccessMessage<T> tickerMessage = new DataAccessMessage<>(message.body());
+		select(tickerMessage.getCriteria(), tickerMessage.getParameters(), next -> {
+			if (isTransactionFailed(next, tickerMessage) == false){
+				tickerMessage.setRecords(next.result());
+			}
+			message.reply(JsonObject.mapFrom(tickerMessage));
+		});
+	}
+
+	public void select(String criteria, JsonArray parameters, Handler<AsyncResult<List<T>>> next) {
 		this.jdbc.getConnection(asyncConn -> {
 			SQLConnection connection = asyncConn.result();
 			connection.queryWithParams(SELECT_PREFIX + criteria, parameters, result -> {
 				if (result.failed()){
 					next.handle(Future.failedFuture(result.cause()));
 				} else {
-					next.handle(Future.succeededFuture(result.result().getRows()));
+					next.handle(Future.succeededFuture(
+							result.result().getRows().parallelStream()
+								.map(json -> json.mapTo(getType()))
+								.collect(Collectors.toList())
+							));
+//					next.handle(Future.succeededFuture(result.result().getRows()));
 				}
 				connection.close();
 			});
