@@ -36,7 +36,7 @@ public interface IVertxSQLDataAccess<T> {
 	
 	void select(Message<JsonObject> message);
 
-	void select(String sql, JsonArray parameters, Handler<AsyncResult<List<JsonObject>>> next); 
+	void select(String sql, JsonArray parameters, Handler<AsyncResult<List<T>>> next); 
 	
 	void selectStreamedResult(String sql, JsonArray parameters, Handler<AsyncResult<List<JsonArray>>> next); 
 

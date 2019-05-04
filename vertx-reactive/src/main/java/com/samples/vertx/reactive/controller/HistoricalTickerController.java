@@ -9,54 +9,57 @@ import org.springframework.web.bind.annotation.RestController;
 import com.samples.common.exception.model.dto.DataNotFoundException;
 import com.samples.market.model.HistoricalTicker;
 import com.samples.market.model.TickerRequestBySymbol;
-import com.samples.vertx.reactive.service.MarketDataService;
-import com.samples.vertx.reactive.service.RestHistoricalTickerConsumer;
-import com.samples.vertx.reactive.service.WebMarketDataService;
-import com.samples.vertx.reactive.visitor.HistoricalTickerAddResponseVisitor;
+import com.samples.vertx.reactive.interfaces.MarketdataAPIConsumer;
+import com.samples.vertx.reactive.service.HistoricalTickerService;
+import com.samples.vertx.reactive.service.WebHistoricalTickerService;
+import com.samples.vertx.reactive.visitor.MarketDataAddResponseVisitor;
 import com.samples.vertx.reactive.visitor.MarketDataGetResponseVisitor;
 import com.samples.vertx.reactive.visitor.model.RxResponse;
 
 @RestController()
 public class HistoricalTickerController {
 	@Autowired
-	private MarketDataService<HistoricalTicker> marketDataService;
+	private HistoricalTickerService histTickService;
 	
 	@Autowired
-	private MarketDataGetResponseVisitor<HistoricalTicker> getResponseVisitor;
+	private MarketDataAddResponseVisitor<HistoricalTicker> historicalAddVisitor;
 	
 	@Autowired
-	private HistoricalTickerAddResponseVisitor addResponseVisitor;
+	private MarketDataGetResponseVisitor<HistoricalTicker> historicalGetVisitor;
+	
+	@Autowired 
+	private WebHistoricalTickerService historicalWebSourceService;
 	
 	@Autowired
-	private WebMarketDataService<HistoricalTicker> webMarketDataService;
-	
-	@Autowired
-	private RestHistoricalTickerConsumer webConsumer;
+	private MarketdataAPIConsumer<HistoricalTicker> webConsumer;
 
 	@PostMapping("/market-data/historical")
-	public ResponseEntity<Object> addHistoricalTicjer
-			(@RequestBody HistoricalTicker ticker){
+	public ResponseEntity<Object> addHistoricalTicker
+			(@RequestBody HistoricalTicker ticker) {
 		
-		RxResponse<HistoricalTicker> marketDataResponse = marketDataService.addMarketData(ticker);
-		marketDataResponse.accept(addResponseVisitor);
+		RxResponse<HistoricalTicker> marketDataResponse = 
+				(RxResponse<HistoricalTicker>) histTickService.addMarketData(ticker);
+		marketDataResponse.accept(historicalAddVisitor);
 		
 		return marketDataResponse.getResponseEntity();
 	}
-
-	//Post is used so this can be secured via spring oauth2
-	@PostMapping("/market-data/historical/get")
+	
+	@PostMapping("market-data/historical/get")
 	public ResponseEntity<Object> getHistoricalTicker
-			(@RequestBody TickerRequestBySymbol request){
+			(@RequestBody TickerRequestBySymbol request) {
 		
-		RxResponse<HistoricalTicker> marketDataResponse = marketDataService
+		RxResponse<HistoricalTicker> marketDataResponse = 
+				(RxResponse<HistoricalTicker>) histTickService
 				.getMarketData(request.getSymbol(), HistoricalTicker.class);
+		
 		try {
-			marketDataResponse.accept(getResponseVisitor);
+			marketDataResponse.accept(historicalGetVisitor);
 		} catch (DataNotFoundException dnfEx) {
-			return webMarketDataService.getWebMarketDataAsEntity(
-					request.getSymbol(), webConsumer);
+			return historicalWebSourceService.getWebMarketDataAsEntity
+					(request.getSymbol(), webConsumer);
 		}
 		
 		return marketDataResponse.getResponseEntity();
 	}
+
 }

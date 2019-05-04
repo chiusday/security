@@ -5,7 +5,10 @@ import static com.samples.utilities.objects.ClassUtil.getClazz;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.samples.market.model.Ticker;
 import com.samples.vertx.enums.DBOperations;
@@ -13,9 +16,9 @@ import com.samples.vertx.model.DataAccessMessage;
 import com.samples.vertx.reactive.AppConfig;
 import com.samples.vertx.reactive.verticle.DataAccessInterchange;
 import com.samples.vertx.reactive.visitor.interfaces.TickersVisitor;
+import com.samples.vertx.reactive.visitor.model.RxResponse;
 import com.samples.vertx.reactive.visitor.model.BaseVisitorModelRxResp;
 import com.samples.vertx.reactive.visitor.model.BatchRxResponse;
-import com.samples.vertx.reactive.visitor.model.RxResponse;
 import com.samples.vertx.reactive.visitor.model.Tickers;
 
 import io.reactivex.Single;
@@ -24,15 +27,18 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.eventbus.EventBus;
 import io.vertx.reactivex.core.eventbus.Message;
 
-public class MarketDataService<T extends Ticker> {
+@Service
+public abstract class MarketDataService<T extends Ticker> {
 	@Autowired
 	private AppConfig appConfig;
 	
 	@Autowired
 	private DataAccessInterchange dataAccessInterchange;
 	
-	@Autowired
-	private TickersVisitor<T> tickersVisitor;
+	protected TickersVisitor<T> tickersVisitor;
+	
+	@PostConstruct
+	protected abstract void setTickersVisitor();
 	
 	public RxResponse<T> addMarketData(T ticker) {
 		DataAccessMessage<T> tickerMessage = new DataAccessMessage<>(getClazz(ticker));

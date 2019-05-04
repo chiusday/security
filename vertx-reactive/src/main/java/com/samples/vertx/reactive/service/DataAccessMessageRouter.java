@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.samples.market.model.HistoricalTicker;
+import com.samples.market.model.IntradayTicker;
 import com.samples.vertx.enums.DBOperations;
 import com.samples.vertx.model.DataAccessMessage;
 import com.samples.vertx.reactive.interfaces.IVertxSQLDataAccess;
@@ -27,6 +28,8 @@ public class DataAccessMessageRouter {
 	private IVertxSQLDataAccess<User> userDataAccess;
 	@Autowired
 	private IVertxSQLDataAccess<HistoricalTicker> historicalTickerDAO;
+	@Autowired
+	private IVertxSQLDataAccess<IntradayTicker> intradayTickerDAO;
 	
 	private Map<Class<?>, IVertxSQLDataAccess<?>> operators = 
 			new ConcurrentHashMap<Class<?>, IVertxSQLDataAccess<?>>();
@@ -46,6 +49,7 @@ public class DataAccessMessageRouter {
 		//build list of data access implementors
 		operators.put(User.class, userDataAccess);
 		operators.put(HistoricalTicker.class, historicalTickerDAO);
+		operators.put(IntradayTicker.class, intradayTickerDAO);
 
 		//establish db connection for each
 		//this a good use case for an observable interface

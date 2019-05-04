@@ -27,17 +27,17 @@
   		<dependency>
 			<groupId>com.security.utilities</groupId>
 			<artifactId>security-common-utilities</artifactId>
-			<version>0.0.1</version>
+			<version>${samples-common.version}</version>
   		</dependency>
   		<dependency>
   			<groupId>com.samples.common</groupId>
   			<artifactId>samples-common-market</artifactId>
-  			<version>${samples-common.version}</version>
+  			<version>0.0.2</version>
   		</dependency>
   		<dependency>
   			<groupId>com.samples.common</groupId>
   			<artifactId>samples-common-vertx</artifactId>
-  			<version>${samples-common.version}</version>
+  			<version>0.0.2</version>
   		</dependency>
   		<dependency>
 			<groupId>com.jon</groupId>

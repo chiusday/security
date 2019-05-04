@@ -1,20 +1,19 @@
 package com.samples.vertx.reactive.model;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.samples.market.model.HistoricalTicker;
+import com.samples.market.model.IntradayTicker;
 
-public class HistoricalTickerDBM extends HistoricalTicker {
+public class IntradayTickerDBM extends IntradayTicker {
 	private int id;
 	
 	public int getId() {
 		return this.id;
 	}
 	
-	@JsonSetter("ID")
-	public void setId(int id) {
-		this.id = id;
-	}
-	
+//	@JsonSetter("ID")
+//	public void setId(int id) {
+//		this.id = id;
+//	}
+//	
 //	@Override
 //	@JsonSetter("SYMBOL")
 //	public void setSymbol(String symbol) {

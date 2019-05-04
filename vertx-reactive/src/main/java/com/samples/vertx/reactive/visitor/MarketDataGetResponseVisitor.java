@@ -34,6 +34,7 @@ public class MarketDataGetResponseVisitor<T extends Ticker> extends RxResponseVi
 		if (message.getModel()==null)
 			throw new DataNotFoundException("Ticker get", "Ticker not found");
 		
-		return new ResponseEntity<>(message.getModel(), HttpStatus.OK);
+//		return new ResponseEntity<>(message.getModel(), HttpStatus.OK);
+		return new ResponseEntity<>(message.getRecords(), HttpStatus.OK);
 	}
 }
