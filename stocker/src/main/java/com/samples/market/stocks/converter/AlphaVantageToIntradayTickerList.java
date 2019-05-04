@@ -24,6 +24,6 @@ public class AlphaVantageToIntradayTickerList extends JsonToTickerList
 			(String symbol, JsonObject quote, Entry<String, Object> entry) {
 		
 		quote.put("symbol", symbol);
-		quote.put("time", entry.getKey());
+		quote.put("priceTime", entry.getKey());
 	}
 }

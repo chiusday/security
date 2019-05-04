@@ -1,16 +1,17 @@
 package com.samples.market.stocks.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import javax.annotation.PostConstruct;
+
 import org.springframework.web.client.RestTemplate;
 
 import com.samples.market.stocks.AppConfig;
 import com.samples.market.stocks.interfaces.DataSource;
 
-@Service
-public class CloudDataSource implements DataSource {
-	@Autowired
-	private AppConfig appConfig;
+public abstract class CloudDataSource<T extends AppConfig> implements DataSource {
+	protected T appConfig;
+	
+	@PostConstruct
+	protected abstract void setAppConfig(); 
 	
 	@Override
 	public String getData(String symbol) {

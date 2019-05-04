@@ -13,6 +13,7 @@ public class AlphaVantageIntradayTicker extends ConvertibleJsonTicker<IntradayTi
 		this.fields.add("close");
 		this.fields.add("high");
 		this.fields.add("low");
+		this.fields.add("priceTime");
 	}
 	
 	public AlphaVantageIntradayTicker(String symbol, JsonObject rawData) {

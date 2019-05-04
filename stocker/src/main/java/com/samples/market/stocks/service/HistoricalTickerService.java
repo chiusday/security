@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.samples.market.model.HistoricalTicker;
 import com.samples.market.stocks.Statics;
-import com.samples.market.stocks.converter.AlphaVantageJsonToHistoricalTicker;
-import com.samples.market.stocks.interfaces.DataSource;
+import com.samples.market.stocks.converter.AlphaVantageToHistoricalTickerList;
 import com.samples.market.stocks.model.AlphaVantageHistoricalTicker;
 import com.samples.market.stocks.visitor.HistoricalTickerListVisitor;
 import com.samples.market.stocks.visitor.interfaces.ConvertibleJsonTicker;
@@ -23,14 +22,14 @@ public class HistoricalTickerService {
 
 	//online DataSource
 	@Autowired
-	private DataSource cloudDataSource;
+	private HistoricalCloudData cloudDataSource;
 	
 	//offline DataSource
 //	@Autowired
 //	private DataSource staticDataSource;
 	
 	@Autowired
-	private AlphaVantageJsonToHistoricalTicker converter;
+	private AlphaVantageToHistoricalTickerList converter;
 	
 	@Autowired
 	private HistoricalTickerListVisitor visitor;

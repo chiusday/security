@@ -1,10 +1,17 @@
 package com.samples.market.stocks;
 
 public class StaticsTimeSeries {
+	private String intraday;
 	private String daily;
 	private String weekly;
 	private String monthly;
 	
+	public String getIntraday() {
+		return intraday;
+	}
+	public void setIntraday(String intraday) {
+		this.intraday = intraday;
+	}
 	public String getDaily() {
 		return daily;
 	}

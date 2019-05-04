@@ -21,14 +21,22 @@ security:
       clientSecret: secret
       checkTokenEndPointUrl: http://localhost:6010/oauth2-authorization/oauth/check_token
 
-app-config:
+app-config-daily:
   sourceUrl: https://www.alphavantage.co/query
   function: function=TIME_SERIES_DAILY_ADJUSTED
   symbol: symbol=
   apiKey: apikey=demo
   
+app-config-intraday:
+  sourceUrl: https://www.alphavantage.co/query
+  function: function=TIME_SERIES_INTRADAY
+  symbol: symbol=
+  apiKey: apikey=demo
+  interval: interval=5min
+
 returned-data:
   timeSeries:
+    intraday: Time Series (5min)
     daily: Time Series (Daily)
     weekly: Weekly Time Series
     monthly: Monthly Time Series

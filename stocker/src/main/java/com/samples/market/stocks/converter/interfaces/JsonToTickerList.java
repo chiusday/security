@@ -47,11 +47,12 @@ public abstract class JsonToTickerList<T extends Ticker,
 			//match each element in the quote with the ticker field. 
 			//Then add to list to be returned
 			JsonObject.mapFrom(entry.getValue()).getMap().entrySet().forEach(elem -> {
-				from.getFields().forEach(field -> {
+				for (String field : from.getFields()) {
 					if (elem.getKey().contains(field)) {
 						quote.put(field, elem.getValue());
+						break;
 					}
-				});
+				}
 			});
 			additionalFields(from.getSymbol(), quote, entry);
 			tickers.add(quote.mapTo(from.getType()));

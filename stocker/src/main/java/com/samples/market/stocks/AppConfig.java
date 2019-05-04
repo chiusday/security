@@ -1,15 +1,10 @@
 package com.samples.market.stocks;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-@Component
-@ConfigurationProperties("app-config")
 public class AppConfig {
-	private String sourceUrl;
-	private String function;
-	private String symbol;
-	private String apiKey;
+	protected String sourceUrl;
+	protected String function;
+	protected String symbol;
+	protected String apiKey;
 	
 	public String getSourceUrl() {
 		return sourceUrl;
@@ -43,8 +38,6 @@ public class AppConfig {
 				.append("&")
 				.append(this.symbol)
 				.append(symbol)
-				.append("&")
-				.append(this.apiKey)
 				.toString();
 	}
 }
