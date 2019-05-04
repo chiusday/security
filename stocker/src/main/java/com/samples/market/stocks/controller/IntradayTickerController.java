@@ -15,7 +15,7 @@ public class IntradayTickerController {
 	@Autowired
 	private IntradayTickerService intradayTickerService;
 
-	@PostMapping("/intraday")
+	@PostMapping("/stock/intraday")
 	public ResponseEntity<Object> getInraday(@RequestBody TickerRequestBySymbol request) {
 		IntradayTickerListVisitorModel visitorModel = 
 				intradayTickerService.getIntradayList(request.getSymbol());

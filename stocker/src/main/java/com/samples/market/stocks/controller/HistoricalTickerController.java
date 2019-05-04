@@ -15,7 +15,7 @@ public class HistoricalTickerController {
 	@Autowired
 	private HistoricalTickerService historicalTickerService;
 	
-	@PostMapping("/stock/list")
+	@PostMapping("/stock/historical")
 	public ResponseEntity<Object> getJson(@RequestBody GetBySymbolRequest request){
 		HistoricalTickerListVisitorModel historicalTickerVisitorModel = 
 				historicalTickerService.getHistoricalTickers(request.getSymbol()); 
